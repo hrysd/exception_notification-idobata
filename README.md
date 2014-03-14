@@ -22,6 +22,8 @@ Sample::Application.configure do
 end
 ```
 
+![](https://f.cloud.github.com/assets/1663465/2419367/38329928-ab5c-11e3-8137-c9969848e52f.png)
+
 ## Contributing
 
 1. Fork it ( http://github.com/hrysd/exception_notification-idobata/fork )
