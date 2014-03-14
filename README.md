@@ -1,12 +1,10 @@
 # ExceptionNotification for Idobata
 
-TODO: Write a gem description
-
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'exception_notification-idobata', git: 'hrysd/exception_notification-idobata'
+    gem 'exception_notification-idobata', github: 'hrysd/exception_notification-idobata'
 
 And then execute:
 
@@ -14,7 +12,12 @@ And then execute:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+Sample::Application.config.middleware.use ExceptionNotifier,
+  idobata: {
+    url: HOOK_ENDPOINT
+  }
+```
 
 ## Contributing
 
