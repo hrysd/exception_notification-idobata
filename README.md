@@ -13,10 +13,13 @@ And then execute:
 ## Usage
 
 ```ruby
-Sample::Application.config.middleware.use ExceptionNotifier,
-  idobata: {
-    url: HOOK_ENDPOINT
-  }
+Sample::Application.configure do
+  config.middleware.use
+    ExceptionNotification::Rack,
+    idobata: {
+      url: HOOK_ENDPOINT
+    }
+end
 ```
 
 ## Contributing
