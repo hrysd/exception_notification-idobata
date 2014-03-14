@@ -25,7 +25,7 @@ module ExceptionNotifier
 
     def call(exception, options={})
       env = options[:env]
-      url = @default_options.delete(:url)
+      url = @default_options[:url]
 
       request = ActionDispatch::Request.new(env) unless env.nil?
 
