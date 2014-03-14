@@ -7,9 +7,9 @@ Gem::Specification.new do |gem|
   gem.version       = ExceptionNotification::Idobata::VERSION
   gem.authors       = ['Hiroshi Yoshida']
   gem.email         = ['hrysd22@gmail.com']
-  gem.summary       = %q{TODO: Write a short summary. Required.}
-  gem.description   = %q{TODO: Write a longer description. Optional.}
-  gem.homepage      = ''
+  gem.summary       = %q{exception_notification for Idobata}
+  gem.description   = %q{exception_notification for Idobata}
+  gem.homepage      = 'https://github.com/hrysd/exception_notification-idobata'
   gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($/)
