@@ -4,18 +4,23 @@
 
 Add this line to your application's Gemfile:
 
-    gem 'exception_notification-idobata', github: 'hrysd/exception_notification-idobata'
-
+```ruby
+gem 'exception_notification'
+gem 'exception_notification-idobata'
+```
 And then execute:
 
-    $ bundle
+```
+$ bundle
+```
 
 ## Usage
 
+This plugin works by putting the following lines in your `config/environments/production.rb`
+
 ```ruby
 Sample::Application.configure do
-  config.middleware.use
-    ExceptionNotification::Rack,
+  config.middleware.use ExceptionNotification::Rack,
     idobata: {
       url: HOOK_ENDPOINT
     }
