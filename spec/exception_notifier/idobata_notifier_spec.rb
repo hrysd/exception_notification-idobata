@@ -22,7 +22,7 @@ describe ExceptionNotifier::IdobataNotifier do
       }
     }
 
-    subject { notifier.build_message(exception, enviroments) }
+    subject { notifier.send(:build_message, exception, enviroments) }
 
     before do
       allow(exception).to receive(:backtrace).and_return(backtrace)
