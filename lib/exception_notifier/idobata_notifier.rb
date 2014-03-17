@@ -9,23 +9,6 @@ module ExceptionNotifier
       @url = options[:url]
     end
 
-    def build_message(exception, enviroments)
-      return <<-HTML
-<span class='label label-important'>#{exception.class.to_s}</span>
-<b>#{CGI.escapeHTML(exception.message.inspect)}</b>
-
-<h4>Backtrace:</h4>
-<pre>#{format_backtrace(exception.backtrace).join("\n")}</pre>
-
-<h4>Environments:</h4>
-<table>
-  <tbody>
-    #{table_rows_from(enviroments)}
-  </tbody>
-</table>
-      HTML
-    end
-
     def call(exception, options={})
       env = options[:env]
 
@@ -43,6 +26,23 @@ module ExceptionNotifier
     end
 
     private
+
+    def build_message(exception, enviroments)
+      return <<-HTML
+<span class='label label-important'>#{exception.class.to_s}</span>
+<b>#{CGI.escapeHTML(exception.message.inspect)}</b>
+
+<h4>Backtrace:</h4>
+<pre>#{format_backtrace(exception.backtrace).join("\n")}</pre>
+
+<h4>Environments:</h4>
+<table>
+  <tbody>
+    #{table_rows_from(enviroments)}
+  </tbody>
+</table>
+      HTML
+    end
 
     def table_rows_from(hash)
       hash.each_with_object('') { |(key, value), rows|
