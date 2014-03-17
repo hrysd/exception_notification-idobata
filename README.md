@@ -22,7 +22,8 @@ This plugin works by putting the following lines in your `config/environments/pr
 Sample::Application.configure do
   config.middleware.use ExceptionNotification::Rack,
     idobata: {
-      url: HOOK_ENDPOINT
+      url:    HOOK_ENDPOINT,
+      stage:  "optional params as you like"
     }
 end
 ```
