@@ -9,6 +9,30 @@ module ExceptionNotifier
       @url = options[:url]
     end
 
+    def call(exception, options={})
+      source =
+        if options[:env]
+          build_web_message(exception, ActionDispatch::Request.new(options[:env]))
+        else
+          # [TODO] - Add option specification route for non-web notification
+          build_message(exception, 'Timestamp' => Time.zone.now)
+        end
+
+      RestClient.post @url, source: source, format: 'html'
+    end
+
+    private
+
+    def build_web_message(exception, request)
+      build_message(exception,
+        'URL'         => request.original_url,
+        'HTTP Method' => request.method,
+        'IP Address'  => request.remote_ip,
+        'Paramters'   => request.filtered_parameters,
+        'Timestamp'   => Time.zone.now
+      )
+    end
+
     def build_message(exception, enviroments)
       return <<-HTML
 <span class='label label-important'>#{exception.class.to_s}</span>
@@ -25,24 +49,6 @@ module ExceptionNotifier
 </table>
       HTML
     end
-
-    def call(exception, options={})
-      env = options[:env]
-
-      request = ActionDispatch::Request.new(env)
-
-      source = build_message(exception,
-        'URL'         => request.original_url,
-        'HTTP Method' => request.method,
-        'IP Address'  => request.remote_ip,
-        'Paramters'   => request.filtered_parameters,
-        'Timestamp'   => Time.zone.now
-      )
-
-      RestClient.post @url, source: source, format: 'html'
-    end
-
-    private
 
     def table_rows_from(hash)
       hash.each_with_object('') { |(key, value), rows|
