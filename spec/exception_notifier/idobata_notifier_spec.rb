@@ -1,7 +1,12 @@
 require 'spec_helper'
 
 describe ExceptionNotifier::IdobataNotifier do
-  let(:notifier) { described_class.new(url: 'https://idobata.io/hook/endpoint') }
+  let(:notifier) do
+    described_class.new(
+      :url => 'https://idobata.io/hook/endpoint',
+      'Rails ENV' => 'staging'
+    )
+  end
 
   describe '#initialize' do
     it 'should set url' do
@@ -22,7 +27,7 @@ describe ExceptionNotifier::IdobataNotifier do
       }
     }
 
-    subject { notifier.build_message(exception, enviroments) }
+    subject { notifier.send(:build_message, exception, enviroments) }
 
     before do
       allow(exception).to receive(:backtrace).and_return(backtrace)
@@ -38,7 +43,7 @@ describe ExceptionNotifier::IdobataNotifier do
 <h4>Environments:</h4>
 <table>
   <tbody>
-    <tr><th>URL</th><td>http://hrysd.org</td></tr><tr><th>HTTP Method</th><td>GET</td></tr><tr><th>IP Address</th><td>127.0.0.1</td></tr><tr><th>Paramters</th><td>{"controller"=>"welcome", "action"=>"index"}</td></tr><tr><th>Timestamp</th><td>2014-03-16 16:30:35 +900</td></tr>
+    <tr><th>Rails ENV</th><td>staging</td></tr><tr><th>URL</th><td>http://hrysd.org</td></tr><tr><th>HTTP Method</th><td>GET</td></tr><tr><th>IP Address</th><td>127.0.0.1</td></tr><tr><th>Paramters</th><td>{"controller"=>"welcome", "action"=>"index"}</td></tr><tr><th>Timestamp</th><td>2014-03-16 16:30:35 +900</td></tr>
   </tbody>
 </table>
     HTML

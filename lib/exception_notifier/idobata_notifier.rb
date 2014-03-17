@@ -14,27 +14,29 @@ module ExceptionNotifier
     end
 
     def call(exception, options={})
-      source =
+      enviroments =
         if options[:env]
-          build_web_message(exception, ActionDispatch::Request.new(options[:env]))
+          request_option(ActionDispatch::Request.new(options[:env]))
         else
           # [TODO] - Add option specification route for non-web notification
-          build_message(exception, 'Timestamp' => Time.zone.now)
+          {'Timestamp' => Time.zone.now}
         end
+
+      source = build_message(exception, enviroments)
 
       RestClient.post @url, source: source, format: 'html'
     end
 
     private
 
-    def build_web_message(exception, request)
-      build_message(exception,
+    def request_option(request)
+      {
         'URL'         => request.original_url,
         'HTTP Method' => request.method,
         'IP Address'  => request.remote_ip,
         'Paramters'   => request.filtered_parameters,
         'Timestamp'   => Time.zone.now
-      )
+      }
     end
 
     def build_message(exception, enviroments)

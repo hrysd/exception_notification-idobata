@@ -23,7 +23,7 @@ Sample::Application.configure do
   config.middleware.use ExceptionNotification::Rack,
     idobata: {
       url:    HOOK_ENDPOINT,
-      stage:  "optional params as you like"
+      stage:  'Optional params as you like'
     }
 end
 ```
