@@ -6,9 +6,10 @@ module ExceptionNotifier
     attr_reader :url
 
     def initialize(options)
-      unless options[:url]
+      unless @url = options.delete(:url)
         raise ArgumentError, 'Endpoint must be specified'
       end
+
       @options = options
     end
 
@@ -21,7 +22,7 @@ module ExceptionNotifier
           build_message(exception, 'Timestamp' => Time.zone.now)
         end
 
-      RestClient.post @options[:url], source: source, format: 'html'
+      RestClient.post @url, source: source, format: 'html'
     end
 
     private
