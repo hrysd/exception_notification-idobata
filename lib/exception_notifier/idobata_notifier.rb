@@ -6,7 +6,10 @@ module ExceptionNotifier
     attr_reader :url
 
     def initialize(options)
-      @url = options[:url]
+      unless options[:url]
+        raise ArgumentError, 'Endpoint must be specified'
+      end
+      @options = options
     end
 
     def call(exception, options={})
@@ -18,7 +21,7 @@ module ExceptionNotifier
           build_message(exception, 'Timestamp' => Time.zone.now)
         end
 
-      RestClient.post @url, source: source, format: 'html'
+      RestClient.post @options[:url], source: source, format: 'html'
     end
 
     private
@@ -44,7 +47,7 @@ module ExceptionNotifier
 <h4>Environments:</h4>
 <table>
   <tbody>
-    #{table_rows_from(enviroments)}
+    #{table_rows_from(@options.merge(enviroments))}
   </tbody>
 </table>
       HTML
