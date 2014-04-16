@@ -1,4 +1,6 @@
-# ExceptionNotification for Idobata [![Build Status](https://travis-ci.org/hrysd/exception_notification-idobata.png?branch=master)](https://travis-ci.org/hrysd/exception_notification-idobata)
+# ExceptionNotification for Idobata
+[![Build Status](https://travis-ci.org/hrysd/exception_notification-idobata.png?branch=master)](https://travis-ci.org/hrysd/exception_notification-idobata)
+[![Code Climate](https://codeclimate.com/github/hrysd/exception_notification-idobata.png)](https://codeclimate.com/github/hrysd/exception_notification-idobata)
 
 ## Installation
 
