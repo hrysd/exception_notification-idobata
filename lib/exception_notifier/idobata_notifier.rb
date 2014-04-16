@@ -6,11 +6,9 @@ module ExceptionNotifier
     attr_reader :url
 
     def initialize(options)
-      unless @url = options.delete(:url)
-        raise ArgumentError, 'Endpoint must be specified'
-      end
+      @options = extract_global_options(options, :url, :skip_library_backtrace)
 
-      @options = options
+      raise(ArgumentError, 'Endpoint must be specified') unless @url
     end
 
     def call(exception, options={})
@@ -28,6 +26,12 @@ module ExceptionNotifier
     end
 
     private
+
+    def extract_global_options(options, *global_option_names)
+      options.dup.tap do |opts|
+        global_option_names.each {|name| instance_variable_set "@#{name}", opts.delete(name) }
+      end
+    end
 
     def request_option(request)
       {
@@ -65,11 +69,11 @@ module ExceptionNotifier
     def format_backtrace(trace)
       trace.map { |line|
         if from_bundler?(line)
-          line.sub(bundle_root, '[bundle]...')
+          @skip_library_backtrace ? nil : line.sub(bundle_root, '[bundle]...')
         else
           line.sub(app_root, '[app]...')
         end
-      }
+      }.compact
     end
 
     def from_bundler?(line)
@@ -85,5 +89,6 @@ module ExceptionNotifier
     def app_root
       Dir.pwd
     end
+
   end
 end

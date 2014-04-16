@@ -14,6 +14,32 @@ describe ExceptionNotifier::IdobataNotifier do
     end
   end
 
+  context 'option :skip_library_backtrace => true' do
+    describe '#build_message' do
+      let(:notifier) do
+        ExceptionNotifier::IdobataNotifier.new(
+          :url => 'https://idobata.io/hook/endpoint',
+          :skip_library_backtrace => true,
+        )
+      end
+
+      let(:library_trace) { 'gems/exception_notification-4.0.1/lib/exception_notifier.rb' }
+
+      let(:exception) do
+        StandardError.new('hello world').tap do |e|
+          e.set_backtrace([
+            [__FILE__,  __LINE__].join(':'),
+            "#{Bundler.bundle_path + library_trace}:1"
+          ])
+        end
+      end
+
+      subject(:message) { notifier.send(:build_message, exception, {}) }
+
+      specify { expect(message).not_to include(library_trace) }
+    end
+  end
+
   describe '#build_message' do
     let(:exception) { StandardError.new('hello, world') }
     let(:backtrace) { ['spec/exception_notifier/idobata_notifier_spec.rb'] }
