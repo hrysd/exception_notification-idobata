@@ -10,6 +10,8 @@ module ExceptionNotifier
         raise ArgumentError, 'Endpoint must be specified'
       end
 
+      @skip_library_backtrace = options.delete(:skip_library_backtrace)
+
       @options = options
     end
 
@@ -65,11 +67,11 @@ module ExceptionNotifier
     def format_backtrace(trace)
       trace.map { |line|
         if from_bundler?(line)
-          line.sub(bundle_root, '[bundle]...')
+          @skip_library_backtrace ? nil : line.sub(bundle_root, '[bundle]...')
         else
           line.sub(app_root, '[app]...')
         end
-      }
+      }.compact
     end
 
     def from_bundler?(line)
