@@ -11,6 +11,18 @@ module ExceptionNotifier
       raise(ArgumentError, 'Endpoint must be specified') unless @url
     end
 
+    def initialize(options)
+      @options = extract_global_options(options, :url, :skip_library_backtrace)
+
+      raise(ArgumentError, 'Endpoint must be specified') unless @url
+    end
+
+    def initialize(options)
+      @options = extract_global_options(options, :url, :skip_library_backtrace)
+
+      raise(ArgumentError, 'Endpoint must be specified') unless @url
+    end
+
     def call(exception, options={})
       enviroments =
         if options[:env]
