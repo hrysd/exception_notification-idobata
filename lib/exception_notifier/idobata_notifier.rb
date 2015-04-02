@@ -45,7 +45,7 @@ module ExceptionNotifier
 
     def build_message(exception, enviroments)
       return <<-HTML
-<span class='label label-important'>#{exception.class.to_s}</span>
+<span class='label label-danger'>#{exception.class.to_s}</span>
 <b>#{CGI.escapeHTML(exception.message.inspect)}</b>
 
 <h4>Backtrace:</h4>

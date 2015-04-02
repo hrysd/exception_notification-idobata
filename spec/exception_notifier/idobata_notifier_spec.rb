@@ -60,7 +60,7 @@ describe ExceptionNotifier::IdobataNotifier do
     end
 
     it { expect(subject).to eql(<<-HTML) }
-<span class='label label-important'>StandardError</span>
+<span class='label label-danger'>StandardError</span>
 <b>&quot;hello, world&quot;</b>
 
 <h4>Backtrace:</h4>
