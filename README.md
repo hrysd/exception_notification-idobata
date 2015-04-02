@@ -30,7 +30,7 @@ Sample::Application.configure do
 end
 ```
 
-![](https://f.cloud.github.com/assets/1663465/2419367/38329928-ab5c-11e3-8137-c9969848e52f.png)
+![](https://cloud.githubusercontent.com/assets/1663465/6956243/f325a476-d925-11e4-82a3-ae4d24ea779d.png)
 
 ## Contributing
 
