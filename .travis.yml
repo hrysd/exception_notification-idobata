@@ -1,7 +1,11 @@
 language: ruby
+before_install:
+  - gem install bundler
 rvm:
-  - 1.9.3
   - 2.0.0
+  - 2.1.8
+  - 2.2.4
+  - 2.3.0
 notifications:
   webhooks:
     - https://idobata.io/hook/929ab950-8df9-405f-8a39-7189ab24cce2
