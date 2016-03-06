@@ -18,7 +18,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
 
   gem.add_dependency 'exception_notification', '~> 4.0.0'
-  gem.add_dependency 'rest-client'
 
   gem.add_development_dependency 'bundler', '~> 1.5'
   gem.add_development_dependency 'rake'
