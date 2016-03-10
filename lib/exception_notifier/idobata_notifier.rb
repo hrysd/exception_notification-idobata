@@ -1,5 +1,6 @@
+require 'net/http'
+
 require 'exception_notification/idobata/version'
-require 'rest-client'
 
 module ExceptionNotifier
   class IdobataNotifier
@@ -22,7 +23,7 @@ module ExceptionNotifier
 
       source = build_message(exception, enviroments)
 
-      RestClient.post @url, source: source, format: 'html'
+      Net::HTTP.post_form URI.parse(url),  source: source, format: :html
     end
 
     private
