@@ -7,7 +7,7 @@ module ExceptionNotifier
     attr_reader :url
 
     def initialize(options)
-      @options = extract_global_options(options, :url, :skip_library_backtrace)
+      @options = extract_global_options(options, :url, :skip_library_backtrace, :proxy)
 
       raise(ArgumentError, 'Endpoint must be specified') unless @url
     end
@@ -23,10 +23,27 @@ module ExceptionNotifier
 
       source = build_message(exception, enviroments)
 
-      Net::HTTP.post_form URI.parse(url),  source: source, format: :html
+      http_client.post_form URI.parse(url),  source: source, format: :html
     end
 
     private
+
+    def http_client
+      @proxy ? Net::HTTP.Proxy(*extract_proxy_settings(@proxy)) : Net::HTTP
+    end
+
+    def extract_proxy_settings(proxy)
+      case proxy
+      when String
+        extract_proxy_settings(URI(proxy))
+      when URI
+        [proxy.host, proxy.port]
+      when Hash
+        proxy.values_at(:host, :port)
+      else
+        proxy
+      end
+    end
 
     def extract_global_options(options, *global_option_names)
       options.dup.tap do |opts|
