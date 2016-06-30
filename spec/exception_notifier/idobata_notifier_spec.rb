@@ -74,4 +74,46 @@ describe ExceptionNotifier::IdobataNotifier do
 </table>
     HTML
   end
+
+  describe '#http_client' do
+    let(:proxy) { raise NotImplementedError }
+    let(:notifier) do
+      ExceptionNotifier::IdobataNotifier.new(
+        :url => 'https://idobata.io/hook/endpoint',
+        :proxy => proxy,
+      )
+    end
+
+    subject(:http_client) { notifier.send(:http_client) }
+
+    context ':proxy is a url string' do
+      let(:proxy) { 'http://proxy-address:8080/' }
+
+      it { expect(http_client).to be_proxy_class }
+      it { expect(http_client.proxy_address).to eq 'proxy-address' }
+      it { expect(http_client.proxy_port).to eq 8080 }
+    end
+
+    context ':proxy is a URI object' do
+      let(:proxy) { URI('http://proxy-address:8080/') }
+
+      it { expect(http_client).to be_proxy_class }
+      it { expect(http_client.proxy_address).to eq 'proxy-address' }
+      it { expect(http_client.proxy_port).to eq 8080 }
+    end
+
+    context ':proxy is a Hash object' do
+      let(:proxy) { {host: 'proxy-address', port: 8080} }
+
+      it { expect(http_client).to be_proxy_class }
+      it { expect(http_client.proxy_address).to eq 'proxy-address' }
+      it { expect(http_client.proxy_port).to eq 8080 }
+    end
+
+    context ':proxy is nil' do
+      let(:proxy) { nil }
+
+      it { expect(http_client).to_not be_proxy_class }
+    end
+  end
 end
